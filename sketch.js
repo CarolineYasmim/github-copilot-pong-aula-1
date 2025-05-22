@@ -1,6 +1,7 @@
 let bolaImagem;
 let jogadorImagem;
 let computadorImagem;
+let fundoImagem;
 let quicarSom;
 let golSom;
 
@@ -44,8 +45,6 @@ class Raquete {
         } else {
             image(computadorImagem, this.x, this.y, this.w, this.h);
         }
-        // fill(color(255, 255, 255));
-        // rect(this.x, this.y, this.w, this.h);
     }
 }
 
@@ -82,7 +81,6 @@ class Bola {
         }
         if (this.y < this.r || this.y > height - this.r) {
             this.vy *= -1;
-           this.vx *= -1;
           }
 
         if (colideRetanguloCirculo(this.x, this.y, this.r, jogador.x, jogador.y, jogador.w, jogador.h) ||
@@ -121,7 +119,6 @@ function colideRetanguloCirculo(cx, cy, raio, x, y, w, h) {
 let bola;
 let jogador;
 let computador;
-let fundoImagem;
 
 function falaPontos() {
     // use speechapi
@@ -145,18 +142,27 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(800, 400);
     bola = new Bola();
     jogador = new Raquete(30);
     computador = new Raquete(width - 30 - 10);
 }
 
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-}
 
 function draw() {
-    image(fundoImagem, 0, 0, width, height);
+    let canvasAspectRatio = width / height;
+    let fundoAspectRatio = fundoImagem.width / fundoImagem.height;
+    let zoom = 1;
+    if (canvasAspectRatio > fundoAspectRatio) {
+        zoom = width / fundoImagem.width;
+    } else {
+        zoom = height / fundoImagem.height;
+    }
+    let scaledWidth = fundoImagem.width * zoom;
+    let scaledHeight = fundoImagem.height * zoom;
+    image(fundoImagem, (width - scaledWidth) / 2, (height - scaledHeight) / 2, scaledWidth, scaledHeight);
+    
+    
     bola.update();
     bola.desenha();
     jogador.update();
