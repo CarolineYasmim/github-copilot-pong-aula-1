@@ -4,6 +4,9 @@ let computadorImagem;
 let quicarSom;
 let golSom;
 
+let pontosJogador = 0;
+let pontosComputador = 0;
+
 class Raquete {
     constructor(x) {
         this.x = x;
@@ -68,7 +71,13 @@ class Bola {
         this.angulo += Math.sqrt(this.vx * this.vx + this.vy * this.vy) / 20;
         
         if (this.x < this.r || this.x > width - this.r) {
+            if (this.x < this.r) {
+                pontosComputador++;
+            } else {
+                pontosJogador++;
+            }
             golSom.play();
+            falaPontos();
             this.reset();
         }
         if (this.y < this.r || this.y > height - this.r) {
@@ -114,6 +123,17 @@ let jogador;
 let computador;
 let fundoImagem;
 
+function falaPontos() {
+    // use speechapi
+        if('speechSynthesis' in window) {
+        const pontuacao = "Pontuação é " + pontosJogador + "a " + pontosComputador;
+        console.log(pontuacao);
+        const msg = new SpeechSynthesisUtterance(pontuacao);
+        msg.lang = 'pt-BR';
+        window.speechSynthesis.speak(msg);
+    }
+}
+
 // Preload a imagem
 function preload() {
     bolaImagem = loadImage('sprites/bola.png');
@@ -125,10 +145,14 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(800, 400);
+    createCanvas(windowWidth, windowHeight);
     bola = new Bola();
     jogador = new Raquete(30);
     computador = new Raquete(width - 30 - 10);
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
