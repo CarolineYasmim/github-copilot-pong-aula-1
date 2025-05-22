@@ -53,36 +53,41 @@ class Bola {
     reset() {
         this.x = width / 2;
         this.y = height / 2;
-        const velecidadeMaxima = 5
-        this.vx = Math.random() * velecidadeMaxima * 2 - velecidadeMaxima;
-        this.vy = Math.random() * velecidadeMaxima * 2 - velecidadeMaxima;
+        const velocidadeMaxima = 5
+        this.vx = Math.random() * velocidadeMaxima * 2 - velocidadeMaxima;
+        this.vy = Math.random() * velocidadeMaxima * 2 - velocidadeMaxima;
+        this.angulo = 0;
     }
 
     update() {
         this.x += this.vx;
         this.y += this.vy;
+        // rotaciona de acordo com a velocidade x e y
+        this.angulo += Math.sqrt(this.vx * this.vx + this.vy * this.vy) / 20;
         
         if (this.x < this.r || this.x > width - this.r) {
             this.reset();
         }
         if (this.y < this.r || this.y > height - this.r) {
             this.vy *= -1;
-        }
+           this.vx *= -1;
+          }
 
         if (colideRetanguloCirculo(this.x, this.y, this.r, jogador.x, jogador.y, jogador.w, jogador.h) ||
             colideRetanguloCirculo(this.x, this.y, this.r, computador.x, computador.y, computador.w, computador.h)) {
-            this.vx *= -1;
-            this.vx *= 1.1;
+           this.vx *= 1.1;
             this.vy *= 1.1;
         }
 
     }
 
     desenha() {
-        image(bolaImagem, this.x - this.r, this.y - this.r, this.r * 2, this.r * 2);
-        //fill(color(255, 255, 255));
-        //ellipse(this.x, this.y, this.r * 2)
-  
+    // rotaciona antes de desenhar
+        push();
+        translate(this.x, this.y);
+        rotate(this.angulo);
+        image(bolaImagem, -this.r, -this.r, this.r * 2, this.r * 2);
+        pop();
     }
 }
 
