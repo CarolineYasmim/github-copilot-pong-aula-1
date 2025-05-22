@@ -46,12 +46,23 @@ class Bola {
         if (this.y < this.r || this.y > height - this.r) {
             this.vy *= -1;
         }
+
+        // se colisão com o jogador considerando o raio da bola
+        const colideNoX = this.x - this.r > jogador.x && this.x - this.r < jogador.x + jogador.w;
+        const colideNoY = 
+            this.y + this.r >= jogador.y && 
+            this.y - this.r <= jogador.y + jogador.h;
+        if(colideNoX && colideNoY) {
+            this.vx *= -1;
+        }
+        
     }
     
     desenha() {
         fill(color(255, 0, 0))
         ellipse(this.x, this.y, this.r * 2, this.r * 2);
     }
+
 }
 
 let bola;
