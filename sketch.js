@@ -102,12 +102,14 @@ function colideRetanguloCirculo(cx, cy, raio, x, y, w, h) {
 let bola;
 let jogador;
 let computador;
+let fundoImagem;
 
 // Preload a imagem
 function preload() {
     bolaImagem = loadImage('sprites/bola.png');
     jogadorImagem = loadImage('sprites/barra01.png');
     computadorImagem = loadImage('sprites/barra02.png');
+    fundoImagem = loadImage('sprites/fundo2.png');
 }
 
 function setup() {
@@ -118,7 +120,7 @@ function setup() {
 }
 
 function draw() {
-    background(color(0, 0, 0));
+    image(fundoImagem, 0, 0, width, height);
     bola.update();
     bola.desenha();
     jogador.update();
