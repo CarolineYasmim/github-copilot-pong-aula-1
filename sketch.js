@@ -1,6 +1,8 @@
 let bolaImagem;
 let jogadorImagem;
 let computadorImagem;
+let quicarSom;
+let golSom;
 
 class Raquete {
     constructor(x) {
@@ -66,6 +68,7 @@ class Bola {
         this.angulo += Math.sqrt(this.vx * this.vx + this.vy * this.vy) / 20;
         
         if (this.x < this.r || this.x > width - this.r) {
+            golSom.play();
             this.reset();
         }
         if (this.y < this.r || this.y > height - this.r) {
@@ -75,7 +78,9 @@ class Bola {
 
         if (colideRetanguloCirculo(this.x, this.y, this.r, jogador.x, jogador.y, jogador.w, jogador.h) ||
             colideRetanguloCirculo(this.x, this.y, this.r, computador.x, computador.y, computador.w, computador.h)) {
-           this.vx *= 1.1;
+            quicarSom.play();
+            this.vx *= -1;
+            this.vx *= 1.1;
             this.vy *= 1.1;
         }
 
@@ -115,6 +120,8 @@ function preload() {
     jogadorImagem = loadImage('sprites/barra01.png');
     computadorImagem = loadImage('sprites/barra02.png');
     fundoImagem = loadImage('sprites/fundo2.png');
+    quicarSom = loadSound('sons/quicar.wav');
+    golSom = loadSound('sons/gol.wav');
 }
 
 function setup() {
