@@ -1,3 +1,7 @@
+let bolaImagem;
+let jogadorImagem;
+let computadorImagem;
+
 class Raquete {
     constructor(x) {
         this.x = x;
@@ -29,14 +33,20 @@ class Raquete {
         }
     }
     desenha() {
-        fill(color(255, 255, 255));
-        rect(this.x, this.y, this.w, this.h);
+        // se a raquete é o jogador
+        if (this.x < width / 2) {
+            image(jogadorImagem, this.x, this.y, this.w, this.h);
+        } else {
+            image(computadorImagem, this.x, this.y, this.w, this.h);
+        }
+        // fill(color(255, 255, 255));
+        // rect(this.x, this.y, this.w, this.h);
     }
 }
 
 class Bola {
     constructor() {
-        this.r = 25;
+        this.r = 15;
         this.reset();
     }
 
@@ -69,14 +79,14 @@ class Bola {
     }
 
     desenha() {
-        fill(color(255, 0, 0))
-        ellipse(this.x, this.y, this.r * 2, this.r * 2);
+        image(bolaImagem, this.x - this.r, this.y - this.r, this.r * 2, this.r * 2);
+        //fill(color(255, 255, 255));
+        //ellipse(this.x, this.y, this.r * 2)
+  
     }
 }
 
 // verifica a colisão entre um círculo e retângulo
-// onde círculo é raio e cx, cy
-// e retângulo é x, y, w, h
 function colideRetanguloCirculo(cx, cy, raio, x, y, w, h) {
     // se o círculo está a esquerda ou a direita do retângulo
     if (cx + raio < x || cx - raio > x + w) {
@@ -92,6 +102,13 @@ function colideRetanguloCirculo(cx, cy, raio, x, y, w, h) {
 let bola;
 let jogador;
 let computador;
+
+// Preload a imagem
+function preload() {
+    bolaImagem = loadImage('assets/bola.png');
+    jogadorImagem = loadImage('assets/barra01.png');
+    computadorImagem = loadImage('assets/barra02.png');
+}
 
 function setup() {
     createCanvas(800, 400);
