@@ -105,9 +105,9 @@ let computador;
 
 // Preload a imagem
 function preload() {
-    bolaImagem = loadImage('assets/bola.png');
-    jogadorImagem = loadImage('assets/barra01.png');
-    computadorImagem = loadImage('assets/barra02.png');
+    bolaImagem = loadImage('sprites/bola.png');
+    jogadorImagem = loadImage('sprites/barra01.png');
+    computadorImagem = loadImage('sprites/barra02.png');
 }
 
 function setup() {
